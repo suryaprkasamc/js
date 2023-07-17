@@ -42,11 +42,13 @@ class Bst {
         }
 
     }
+    a = []
     preorder(root) {
         if (!root)
             return
         else {
-            console.log(root.value)
+            //console.log(root.value)
+            this.a.push(root.value)
             this.preorder(root.left)
             this.preorder(root.right)
         }
@@ -58,9 +60,8 @@ class Bst {
         else {
             this.postorder(root.left)
             this.postorder(root.right)
-            console.log(root.value)
-
-
+            //console.log(root.value)
+            this.a.push(root.value)
         }
 
     }
@@ -69,17 +70,17 @@ class Bst {
             return
         else {
             this.Inorder(root.left)
-            console.log(root.value)
+            // console.log(root.value)
+            this.a.push(root.value)
             this.Inorder(root.right)
         }
     }
     searchNode(root, val) {
 
-        if (!root) {
+        if (root == null) {
             return false
         }
         else {
-            console.log(root.value)
             if (root.value === val) {
                 // console.log(root.value ,'is present')
                 return true
@@ -93,29 +94,76 @@ class Bst {
         }
     }
     search(val) {
-        return this.searchNode(this.root, val)
+         console.log(this.searchNode(this.root, val))
     }
     print() {
-        console.log('preorder ')
-        this.preorder(this.root)
-        console.log('post order ')
-        this.postorder(this.root)
+        // console.log('preorder ')
+        // this.preorder(this.root)
+        // console.log(this.a)
+        // console.log('post order ')
+        // this.postorder(this.root)
+        // console.log(this.a)
+        this.a = [];
         console.log('In order ')
         this.Inorder(this.root)
+        console.log(this.a)
+
+    }
+    height(root) {
+        if (!root) { return -1 }
+        let lh = this.height(root.left)
+        let rh = this.height(root.right)
+        return (lh > rh ? lh + 1 : rh + 1)
+    }
+    findHeight(){
+       console.log(`height of the tree is ${this.height(this.root)}`) 
     }
 }
 
 
 
-const bst = new Bst();
 
-bst.insert(14)
-bst.insert(24)
-bst.insert(65)
-bst.insert(69)
-bst.insert(90)
-bst.insert(87)
-bst.insert(4)
-bst.insert(3)
-bst.print()
-console.log('is tree empty ?', bst.isEmpty())
+const readline = require('readline');
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+const a = new Bst();
+
+function processInput() {
+    rl.question('Enter an option (1) insert (2)delete   3)search  (4)view 5)tree height  (0)exit: ', (input) => {
+        switch (parseInt(input)) {
+            case 1:
+                rl.question('Enter a value to insert: ', (value) => {
+                    a.insert(value);
+                    processInput();
+                });
+                break;
+            case 2:
+
+                processInput();
+                break;
+
+            case 3:
+                rl.question('Enter a value to search: ', (value) => {
+                    a.search(value);
+                    processInput();
+                });
+                break
+            case 4: a.print()
+                processInput()
+                break;
+            case 5: a.findHeight()
+                    processInput();
+                    break;
+                case 0:
+                rl.close();
+                break;
+            default:
+                console.log('Invalid option. Try again.');
+                processInput();
+        }
+    });
+}
+
+processInput();
