@@ -1,3 +1,12 @@
+let d=''
+process.stdin.on('data',(x)=>x+=d)
+process.stdin.on('end',()=>{
+    mainFunc(d)
+})
+function mainFunc(val){
+    console.log(val)
+    return 0
+}
 function splitGroups(input){
 
     let val = input.split('')
@@ -16,5 +25,5 @@ function splitGroups(input){
     return c;
 }
 
-let val = '1213141516171819'
+let val = '5213141516171819'
 console.log(splitGroups(val))
